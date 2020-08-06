@@ -1,21 +1,21 @@
 package web.lab.Controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import web.lab.Math.Math;
 import web.lab.Requests.RequestShooting;
 import web.lab.Responses.ResponsePoints;
 import web.lab.Responses.ResponseShooting;
 
-@Controller
+@RestController
 public class MainController {
 
-    @PostMapping("points")
-    public ResponseShooting addPoint(RequestShooting request){
-        System.out.println(request.getXCoordinate());
-        System.out.println(request.getYCoordinate());
-        System.out.println(request.getRParameter());
-        return new ResponseShooting();
+    @Autowired
+    Math math;
+
+    @PostMapping("/points")
+    public @ResponseBody  ResponseShooting addPoint( @RequestBody  RequestShooting request){
+        return new ResponseShooting(math.checkPoint(Double.parseDouble(request.getX()), Double.parseDouble(request.getY()), Double.parseDouble(request.getR())));
     }
 
     @GetMapping("points")
