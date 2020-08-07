@@ -16,4 +16,9 @@ public class UserServiceImpl implements UserService {
     public User addUser(User user) {
         return userRepository.saveAndFlush(user);
     }
+
+    @Override
+    public User findUserByNickname(String nickname) {
+        return userRepository.findOneByNickname(nickname);
+    }
 }

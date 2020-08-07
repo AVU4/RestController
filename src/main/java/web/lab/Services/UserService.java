@@ -7,4 +7,5 @@ import web.lab.Entities.User;
 public interface UserService {
 
     User addUser(User user);
+    User findUserByNickname(String nickname);
 }
