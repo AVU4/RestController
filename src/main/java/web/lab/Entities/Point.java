@@ -2,10 +2,7 @@ package web.lab.Entities;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name = "points")
 @Entity
@@ -13,8 +10,8 @@ import javax.persistence.Table;
 public class Point {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Double x;
     private Double y;
     private Double r;

@@ -14,6 +14,6 @@ public class PointServiceImpl implements PointService {
 
     @Override
     public Point addPoint(Point point) {
-        return pointRepository.save(point);
+        return pointRepository.saveAndFlush(point);
     }
 }
