@@ -8,6 +8,7 @@ import web.lab.Requests.RequestShooting;
 import web.lab.Responses.ResponsePoints;
 import web.lab.Responses.ResponseShooting;
 import web.lab.Services.PointService;
+import web.lab.Validation.PointValidation;
 
 @RestController
 public class MainController {
@@ -16,16 +17,30 @@ public class MainController {
     Math math;
 
     @Autowired
+    PointValidation pointValidation;
+
+    @Autowired
     PointService pointService;
 
     @PostMapping("/points")
     public @ResponseBody  ResponseShooting addPoint( @RequestBody  RequestShooting request){
 
-        //Валидация
-        String result = math.checkPoint(Double.parseDouble(request.getX()), Double.parseDouble(request.getY()), Double.parseDouble(request.getR()));
-        Point point = new Point(Double.parseDouble(request.getX()), Double.parseDouble(request.getY()), Double.parseDouble(request.getR()), result);
-        pointService.addPoint(point);
-        return new ResponseShooting(result);
+        String x = request.getX();
+        String y = request.getY();
+        String r = request.getR();
+        String validationResult = pointValidation.validate(x, y, r);
+        if (validationResult.equals("OK")){
+            Double X = Double.parseDouble(x);
+            Double Y = Double.parseDouble(y);
+            Double R = Double.parseDouble(r);
+            String result = math.checkPoint(X, Y, R);
+            Point point = new Point(X, Y, R, result);
+            pointService.addPoint(point);
+            return new ResponseShooting(result, "NO");
+        }else{
+            return new ResponseShooting(validationResult, "YES");
+        }
+
     }
 
     @GetMapping("points")
