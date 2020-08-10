@@ -6,6 +6,8 @@ import web.lab.Entities.Point;
 import web.lab.Repositories.PointRepository;
 import web.lab.Services.PointService;
 
+import java.util.List;
+
 @Service
 public class PointServiceImpl implements PointService {
 
@@ -15,5 +17,10 @@ public class PointServiceImpl implements PointService {
     @Override
     public Point addPoint(Point point) {
         return pointRepository.saveAndFlush(point);
+    }
+
+    @Override
+    public List<Point> findAllByNickname(String nickname) {
+        return pointRepository.findAllByNickname(nickname);
     }
 }

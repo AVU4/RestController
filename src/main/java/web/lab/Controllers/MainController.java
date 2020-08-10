@@ -10,6 +10,9 @@ import web.lab.Responses.ResponseShooting;
 import web.lab.Services.PointService;
 import web.lab.Validation.PointValidation;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RestController
 public class MainController {
 
@@ -25,6 +28,7 @@ public class MainController {
     @PostMapping("/points")
     public @ResponseBody  ResponseShooting addPoint( @RequestBody  RequestShooting request){
 
+        //Нужна авторизация, чтобы добавить имя пользователя к точке
         String x = request.getX();
         String y = request.getY();
         String r = request.getR();
@@ -43,8 +47,10 @@ public class MainController {
 
     }
 
-    @GetMapping("points")
+    @GetMapping("/points")
     public ResponsePoints getPoints(){
-        return new ResponsePoints();
+        //Нужно сделать авторизацию, чтобы получать имя пользователя
+        List<Point> points = pointService.findAllByNickname();
+        return new ResponsePoints(Arrays.toString(points.toArray()));
     }
 }

@@ -12,6 +12,7 @@ public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nickname;
     private Double x;
     private Double y;
     private Double r;
@@ -20,14 +21,16 @@ public class Point {
     public Point() {
     }
 
-    public Point(Double x, Double y, Double r, String result) {
+    public Point(String nickname, Double x,  Double y, Double r, String result) {
+        this.nickname = nickname;
         this.x = x;
         this.y = y;
         this.r = r;
         this.result = result;
     }
 
-    public Point(long id, Double x, Double y, Double r, String result) {
+    public Point(long id, String nickname,  Double x, Double y, Double r, String result) {
+        this.nickname = nickname;
         this.id = id;
         this.x = x;
         this.y = y;
@@ -36,6 +39,12 @@ public class Point {
     }
 
 
-
-
+    @Override
+    public String toString() {
+        return "{ x=" + x +
+                ", y=" + y +
+                ", r=" + r +
+                ", result='" + result + '\'' +
+                '}';
+    }
 }
