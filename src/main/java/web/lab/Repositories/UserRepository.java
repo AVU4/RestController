@@ -6,4 +6,5 @@ import web.lab.Entities.User;
 public interface UserRepository extends JpaRepository<User, String> {
 
     User findOneByNickname(String nickname);
+    User findByAuthTokenEquals(String token);
 }

@@ -21,4 +21,9 @@ public class UserServiceImpl implements UserService {
     public User findUserByNickname(String nickname) {
         return userRepository.findOneByNickname(nickname);
     }
+
+    @Override
+    public User findUserByAuthToken(String token) {
+        return userRepository.findByAuthTokenEquals(token);
+    }
 }
