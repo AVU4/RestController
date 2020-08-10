@@ -20,13 +20,15 @@ public class UserController {
     @Autowired
     UserValidation userValidation;
 
+
+    //Токен при регистрации пуст
     @PostMapping("/users")
     public @ResponseBody ResponseUser registration(@RequestBody RequestUser request){
         String nickname = request.getNickname();
         String password = request.getPassword();
         String validationResult = userValidation.validate(nickname, password);
         if (validationResult.equals("OK")) {
-            userService.addUser(new User(nickname, password));
+            userService.addUser(new User(nickname, password, null));
             return new ResponseUser("Регистрация прошла успешна","NO");
         }else{
             return new ResponseUser(validationResult, "YES");
