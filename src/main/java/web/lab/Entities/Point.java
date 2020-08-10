@@ -1,5 +1,6 @@
 package web.lab.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,7 +12,9 @@ public class Point {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
+    @JsonIgnore
     private String nickname;
     private Double x;
     private Double y;
@@ -37,14 +40,5 @@ public class Point {
         this.r = r;
         this.result = result;
     }
-
-
-    @Override
-    public String toString() {
-        return "{ x=" + x +
-                ", y=" + y +
-                ", r=" + r +
-                ", result='" + result + '\'' +
-                '}';
-    }
+    
 }

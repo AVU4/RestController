@@ -1,6 +1,8 @@
 package web.lab.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import web.lab.Entities.Point;
 import web.lab.Math.Math;
@@ -38,7 +40,9 @@ public class MainController {
             Double Y = Double.parseDouble(y);
             Double R = Double.parseDouble(r);
             String result = math.checkPoint(X, Y, R);
-            Point point = new Point(X, Y, R, result);
+            Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+            String nickname = authentication.getName();
+            Point point = new Point(nickname, X, Y, R, result);
             pointService.addPoint(point);
             return new ResponseShooting(result, "NO");
         }else{
@@ -48,9 +52,10 @@ public class MainController {
     }
 
     @GetMapping("/points")
-    public ResponsePoints getPoints(){
+    public List<Point> getPoints(){
         //Нужно сделать авторизацию, чтобы получать имя пользователя
-        List<Point> points = pointService.findAllByNickname();
-        return new ResponsePoints(Arrays.toString(points.toArray()));
+        Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+        List<Point> points = pointService.findAllByNickname(authentication.getName());
+        return points;
     }
 }
