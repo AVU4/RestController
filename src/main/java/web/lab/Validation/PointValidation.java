@@ -14,11 +14,11 @@ public class PointValidation {
             }
 
             Double Y = Double.parseDouble(y);
-            if ( Y < -3 && Y > 5)
+            if ( Y < -3.0 || Y > 5.0)
                 return "Неверное значение для Y.";
 
             Double R = Double.parseDouble(r);
-            if (R != -4 && R != -3 && R != -2 && R != -1 && R != 0 && R != 1 && R != 2 && R != 3 && R != 4)
+            if (R != 1 && R != 2 && R != 3 && R != 4)
                 return "Неверное значение для R.";
             return "OK";
         }catch (NumberFormatException e){

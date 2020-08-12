@@ -50,7 +50,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin
     @PostMapping("/login")
     public @ResponseBody ResponseUser login(@RequestBody RequestUser request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getNickname(), request.getPassword()));
