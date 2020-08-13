@@ -38,8 +38,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/access").permitAll()
                 .antMatchers(HttpMethod.POST, "/points").authenticated()
                 .antMatchers(HttpMethod.GET, "/points").authenticated()
+                .antMatchers(HttpMethod.POST, "/logout").authenticated()
                 .anyRequest().anonymous()
                 .and()
                 .apply(new Configurer(tokenProvider));
@@ -61,7 +63,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*").allowedHeaders("*").allowedOrigins("*");
+                registry.addMapping("/**").allowedMethods("*").allowedHeaders("*").allowedOrigins("http://localhost:3000", "*");
 
             }
         };
