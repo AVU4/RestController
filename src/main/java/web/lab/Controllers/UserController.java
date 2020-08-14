@@ -76,7 +76,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/logout")
+    @PostMapping("/exit")
     public @ResponseBody ResponseUser logout(){
         Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByNickname(authentication.getName());
