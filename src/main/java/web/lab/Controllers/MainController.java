@@ -1,10 +1,16 @@
 package web.lab.Controllers;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import web.lab.Entities.Point;
 import web.lab.Math.Math;
+import web.lab.Requests.RequestPage;
 import web.lab.Requests.RequestShooting;
 import web.lab.Responses.ResponseShooting;
 import web.lab.Services.PointService;
@@ -12,6 +18,7 @@ import web.lab.Validation.PointValidation;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -80,10 +87,15 @@ public class MainController {
     }
 
     @GetMapping("/points")
-    public List<Point> getPoints(){
+    public List<Point> getPoints(@RequestParam Integer page){
         //Нужно сделать авторизацию, чтобы получать имя пользователя
-        Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
-        List<Point> points = pointService.findAllByNickname(authentication.getName());
-        return points;
+        if (page >= 0) {
+            Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+            Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
+            Page<Point> points = pointService.findAllByNickname(authentication.getName(), pageable);
+            return Arrays.asList(points.stream().toArray(Point[]::new));
+        }else{
+            return null;
+        }
     }
 }
