@@ -60,10 +60,6 @@ public class MainController {
 
     @PostMapping("/points")
     public @ResponseBody  ResponseShooting addPoint( @RequestBody  RequestShooting request) {
-
-
-
-        //Нужна авторизация, чтобы добавить имя пользователя к точке
         String x = request.getX();
         String y = request.getY();
         String r = request.getR();
@@ -88,7 +84,6 @@ public class MainController {
 
     @GetMapping("/points")
     public List<Point> getPoints(@RequestParam Integer page){
-        //Нужно сделать авторизацию, чтобы получать имя пользователя
         if (page >= 0) {
             Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
             Pageable pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
